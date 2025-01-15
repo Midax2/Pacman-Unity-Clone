@@ -2,16 +2,10 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private SpawnController spawnController;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private SpawnController spawnController; // Control spawning of all game objects
     void Start()
     {
         spawnController.SpawnPlayer();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

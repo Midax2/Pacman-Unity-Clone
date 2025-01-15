@@ -5,8 +5,12 @@ public class SpawnController : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject ghostPrefab;
     [SerializeField] private Transform playerSpawnPoint;
-    [SerializeField] private Transform[] ghostSpawnPoints;
+    [SerializeField] private Transform[] ghostSpawnPoints; // Array of ghost spawn points: Green - 0, Orange - 1, Pink - 2, Red - 3
+    public enum Ghosts { Green, Orange, Pink, Red }
 
+    /// <summary>
+    /// Spawns the player at the specified spawn point.
+    /// </summary>
     public void SpawnPlayer()
     {
         if (playerPrefab != null && playerSpawnPoint != null)
@@ -16,39 +20,16 @@ public class SpawnController : MonoBehaviour
         }
     }
 
-    public void SpawnGreenGhost()
+    /// <summary>
+    /// Spawns a ghost of the specified type at the corresponding spawn point.
+    /// </summary>
+    /// <param name="ghostType">The type of ghost to spawn.</param>
+    public void SpawnGhost(Ghosts ghostType)
     {
-        if (ghostPrefab != null && ghostSpawnPoints != null && ghostSpawnPoints.Length > 0)
+        if (ghostPrefab != null && ghostSpawnPoints != null && ghostSpawnPoints.Length > (int)ghostType)
         {
-            GameObject ghost = Instantiate(ghostPrefab, ghostSpawnPoints[0].position, ghostSpawnPoints[0].rotation);
-            ghost.name = "Green";
-        }
-    }
-
-    public void SpawnOrangeGhost()
-    {
-        if (ghostPrefab != null && ghostSpawnPoints != null && ghostSpawnPoints.Length > 1)
-        {
-            GameObject ghost = Instantiate(ghostPrefab, ghostSpawnPoints[1].position, ghostSpawnPoints[1].rotation);
-            ghost.name = "Orange";
-        }
-    }
-
-    public void SpawnPinkGhost()
-    {
-        if (ghostPrefab != null && ghostSpawnPoints != null && ghostSpawnPoints.Length > 2)
-        {
-            GameObject ghost = Instantiate(ghostPrefab, ghostSpawnPoints[2].position, ghostSpawnPoints[2].rotation);
-            ghost.name = "Pink";
-        }
-    }
-
-    public void SpawnRedGhost()
-    {
-        if (ghostPrefab != null && ghostSpawnPoints != null && ghostSpawnPoints.Length > 3)
-        {
-            GameObject ghost = Instantiate(ghostPrefab, ghostSpawnPoints[3].position, ghostSpawnPoints[3].rotation);
-            ghost.name = "Red";
+            GameObject ghost = Instantiate(ghostPrefab, ghostSpawnPoints[(int)ghostType].position, ghostSpawnPoints[(int)ghostType].rotation);
+            ghost.name = ghostType.ToString();
         }
     }
 }
