@@ -7,6 +7,12 @@ public class PlayerController : MonoBehaviour
     private float moveX, moveY;
     private Vector2 lastMoveDirection = new Vector2(1, 0);
     private bool facingRight = true;
+    private Rigidbody2D rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     void Update()
     {
@@ -28,7 +34,7 @@ public class PlayerController : MonoBehaviour
         Vector2 moveDirection = CalculateDirection();
 
         // Move the player in the direction of the input
-        transform.Translate(moveDirection * moveSpeed * Time.deltaTime, Space.World);
+        rb.linearVelocity = moveDirection * moveSpeed;
 
         // Rotate the player to face the direction of movement
         if (moveDirection != Vector2.zero)
@@ -81,5 +87,16 @@ public class PlayerController : MonoBehaviour
         Vector3 playerScale = transform.localScale;
         playerScale.y *= -1;
         transform.localScale = playerScale;
+    }
+
+    /// <summary>
+    /// Logs collision with other rigidbody objects.
+    /// </summary>
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.rigidbody != null)
+        {
+            Debug.Log($"Player collided with {collision.gameObject.name}");
+        }
     }
 }
