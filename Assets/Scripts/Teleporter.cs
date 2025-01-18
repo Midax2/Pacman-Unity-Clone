@@ -4,6 +4,7 @@ public class Teleporter : MonoBehaviour
 {
     private GameObject leftTeleport;
     private GameObject rightTeleport;
+    // Keep track of objects that have been teleported to prevent teleporting them again
     private System.Collections.Generic.HashSet<GameObject> teleportedObjects = new System.Collections.Generic.HashSet<GameObject>();
     private float checkInterval = 0.3f;
     private float nextCheckTime = 0f;
@@ -16,6 +17,7 @@ public class Teleporter : MonoBehaviour
 
     void Update()
     {
+        // Check for collisions at regular intervals
         if (Time.time >= nextCheckTime)
         {
             CheckForCollisions();
@@ -23,15 +25,23 @@ public class Teleporter : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check for collisions around both teleporters
+    /// </summary>
     private void CheckForCollisions()
     {
         CheckForCollisionsAround(leftTeleport);
         CheckForCollisionsAround(rightTeleport);
     }
 
+    /// <summary>
+    /// Check for collisions around a specific teleporter
+    /// </summary>
+    /// <param name="teleport"></param>
     private void CheckForCollisionsAround(GameObject teleport)
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(teleport.transform.position, teleport.transform.localScale / 2, 0, LayerMask.GetMask("Default"));
+        // If there are no colliders, clear the list of teleported objects
         if (colliders.Length == 0)
         {
             teleportedObjects.Clear();
@@ -43,9 +53,12 @@ public class Teleporter : MonoBehaviour
                 TeleportObject(collider.gameObject);
             }
         }
-
     }
 
+    /// <summary>
+    /// Teleport the object to the opposite teleporter
+    /// </summary>
+    /// <param name="obj"></param>
     private void TeleportObject(GameObject obj)
     {
         GameObject parentObject = obj.transform.parent != null ? obj.transform.parent.gameObject : obj;
@@ -58,7 +71,7 @@ public class Teleporter : MonoBehaviour
         {
             parentObject.transform.position = leftTeleport.transform.position;
         }
-
+        // Add the object to the list of teleported objects
         teleportedObjects.Add(obj);
     }
 }
