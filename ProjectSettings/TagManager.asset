@@ -5,14 +5,16 @@ TagManager:
   serializedVersion: 3
   tags:
   - Wall
+  - DirectionArrow
+  - PlayerSprite
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Obstacles
   - Water
   - UI
-  - 
+  - Teleports
   - 
   - 
   - 
